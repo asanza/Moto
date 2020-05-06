@@ -178,7 +178,22 @@ class Window(QMainWindow):
         
         label8a = QLabel('pu')
         #label8a.setMinimumWidth(40)
-        
+
+        label_rp = QLabel('Rated Power')
+        self.lex9 = QLineEdit()
+        self.lex9.setText(str(globals.motor_data["rated_power"]))
+        labelex9 = QLabel('Kw')
+
+        label_ri = QLabel('Rated Current')
+        self.lex10 = QLineEdit()
+        self.lex10.setText(str(globals.motor_data["rated_current"]))
+        labelex10 = QLabel('I')
+
+        label_rv = QLabel('Rated Voltage')
+        self.lex11 = QLineEdit()
+        self.lex11.setText(str(globals.motor_data["rated_voltage"]))
+        labelex11 = QLabel('V')
+
         ########
         # Model
         ########
@@ -397,7 +412,19 @@ class Window(QMainWindow):
         grid.addWidget(label8, i+5, 4)
         grid.addWidget(self.le8, i+5, 5)
         grid.addWidget(label8a, i+5, 6)
-        
+        grid.addWidget(label_rp, i+6, 0)
+        grid.addWidget(self.lex9, i+6, 1)
+        grid.addWidget(labelex9, i+6, 2)
+
+        grid.addWidget(label_ri, i+7, 0)
+        grid.addWidget(self.lex10, i+7, 1)
+        grid.addWidget(labelex10, i+7, 2)
+
+        grid.addWidget(label_rv, i+8, 0)
+        grid.addWidget(self.lex11, i+8, 1)
+        grid.addWidget(labelex11, i+8, 2)
+
+
         # Model
         i = 9
         #grid.addWidget(header2, i, 0)

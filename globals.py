@@ -22,7 +22,10 @@ def init():
         "rated_eff"         : 0.91,
         "T_b"               : 3.2,     
         "T_lr"              : 2.4,     
-        "I_lr"              : 6.5     
+        "I_lr"              : 6.5,
+        "rated_power"       : 1.0,
+        "rated_current"     : 10.0,
+        "rated_voltage"     : 220.0,
         }
         
     algo_data = {
