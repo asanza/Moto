@@ -15,7 +15,7 @@ from PyQt5.QtGui import QPalette, QFont, QIcon, QPixmap
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMainWindow, QApplication, QDesktopWidget, QAction
 from PyQt5.QtWidgets import QLabel, QLineEdit, QComboBox, QPushButton
-from PyQt5.QtWidgets import QGridLayout, QWidget, QMessageBox
+from PyQt5.QtWidgets import QGridLayout, QWidget, QMessageBox, QFileDialog
 import numpy as np
 import dateutil, pyparsing
 import matplotlib.pyplot as plt
@@ -725,16 +725,16 @@ class Window(QMainWindow):
     # Open file and load motor data
     def load_action(self):
         # Open file dialog box
-        filename = QtGui.QFileDialog.getOpenFileName(self, "Open Moto File", "library/", "Moto files (*.mto)")
+        filename = QFileDialog.getOpenFileName(self, "Open Moto File", "library/", "Moto files (*.mto)")
         
-        if filename:
-            saveload.load_file(filename)
+        if filename[0]:
+            saveload.load_file(filename[0])
             self.update_window()
     
     # Save motor data to file
     def save_action(self):
         # Open save file dialog box
-        filename = QtGui.QFileDialog.getSaveFileName(self, "Save Moto File", "library/", "Moto files (*.mto)")
+        filename = QFileDialog.getSaveFileName(self, "Save Moto File", "library/", "Moto files (*.mto)")
         
         if filename:
             saveload.save_file(filename)

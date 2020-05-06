@@ -32,7 +32,7 @@ def load_file(filename):
         i = i + 1
 
 def save_file(filename):
-    f = open(filename, "w")
+    f = open(filename[0], "w")
     
     f.write("description;%s\n" % globals.motor_data["description"])
     f.write("sync_speed;%f\n" % globals.motor_data["sync_speed"])
