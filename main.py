@@ -11,10 +11,11 @@ Last edited: August 2014
 """
 
 import os, sys
-from PyQt5 import QtCore, QtGui
+from PyQt5.QtGui import QPalette, QFont, QIcon, QPixmap
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMainWindow, QApplication, QDesktopWidget, QAction
 from PyQt5.QtWidgets import QLabel, QLineEdit, QComboBox, QPushButton
-from PyQt5.QtWidgets import QGridLayout, QWidget
+from PyQt5.QtWidgets import QGridLayout, QWidget, QMessageBox
 import numpy as np
 import dateutil, pyparsing
 import matplotlib.pyplot as plt
@@ -39,17 +40,17 @@ class Window(QMainWindow):
         self.centre()
         
         # Set background colour of main window to white
-        palette = QtGui.QPalette()
-        palette.setColor(QtGui.QPalette.Background,QtCore.Qt.white)
+        palette = QPalette()
+        palette.setColor(QPalette.Background,Qt.white)
         self.setPalette(palette)
         
         self.setWindowTitle('SPE Moto | Induction Motor Parameter Estimation Tool')
-        self.setWindowIcon(QtGui.QIcon('icons\motor.png'))    
+        self.setWindowIcon(QIcon('icons\motor.png'))    
               
         """
         Actions
         """
-        exitAction = QAction(QtGui.QIcon('icons\exit.png'), '&Exit', self)        
+        exitAction = QAction(QIcon('icons\exit.png'), '&Exit', self)        
         exitAction.setShortcut('Ctrl+Q')
         exitAction.setStatusTip('Exit application')
         exitAction.triggered.connect(QApplication.instance().quit)
@@ -88,7 +89,7 @@ class Window(QMainWindow):
         Main Screen
         """
         
-        heading_font = QtGui.QFont()
+        heading_font = QFont()
         heading_font.setPointSize(10)
         heading_font.setBold(True)
         
@@ -196,7 +197,7 @@ class Window(QMainWindow):
         self.combo_model.setCurrentIndex(1)
         
         self.img1 = QLabel()
-        self.img1.setPixmap(QtGui.QPixmap('images\dbl_cage.png'))
+        self.img1.setPixmap(QPixmap('images\dbl_cage.png'))
         
         #####################
         # Algorithm settings
@@ -459,7 +460,7 @@ class Window(QMainWindow):
         grid.addWidget(label23, i+3, 5)
         grid.addWidget(self.leIter, i+3, 6)
         
-        grid.setAlignment(QtCore.Qt.AlignTop)      
+        grid.setAlignment(Qt.AlignTop)      
 
         main_screen = QWidget()
         main_screen.setLayout(grid)
@@ -550,7 +551,7 @@ class Window(QMainWindow):
         if conv == 1:
             self.leConv.setText("Yes")
         else:
-            QtGui.QMessageBox.warning(self, 'Warning', "Algorithm did not converge.", QtGui.QMessageBox.Ok)
+            QMessageBox.warning(self, 'Warning', "Algorithm did not converge.", QMessageBox.Ok)
             self.leConv.setText("No")
             
         self.leErr.setText(str(np.round(err,9)))
@@ -597,7 +598,7 @@ class Window(QMainWindow):
         # Plot torque-speed and current-speed curves
         if plt.fignum_exists(1):
             # Do nothing
-            QtGui.QMessageBox.warning(self, 'Warning', "A plot is already open. Please close to create a new plot.", QtGui.QMessageBox.Ok)
+            QMessageBox.warning(self, 'Warning', "A plot is already open. Please close to create a new plot.", QMessageBox.Ok)
         else:
             plt.figure(1, facecolor='white')
             plt.subplot(211)
@@ -618,23 +619,26 @@ class Window(QMainWindow):
     
     # Update global variables on change in data fields
     def update_data(self):
-        globals.motor_data["description"] = str(self.le1.text())
-        globals.motor_data["sync_speed"] = float(self.le2.text())
-        globals.motor_data["rated_speed"] = float(self.le3.text())
-        globals.motor_data["rated_pf"] = float(self.le4.text())
-        globals.motor_data["rated_eff"] = float(self.le5.text())
-        globals.motor_data["T_b"] = float(self.le6.text())
-        globals.motor_data["T_lr" ] = float(self.le7.text())
-        globals.motor_data["I_lr"] = float(self.le8.text())
-        globals.algo_data["max_iter"] = int(self.le9.text())
-        globals.algo_data["conv_err"] = float(self.le10.text())
-        globals.algo_data["k_r"] = float(self.le11.text())
-        globals.algo_data["k_x"] = float(self.le12.text())
-        globals.algo_data["n_gen"] = int(self.len_gen.text())
-        globals.algo_data["pop"] = int(self.lepop.text())
-        globals.algo_data["n_r"] = int(self.len_r.text())
-        globals.algo_data["n_e"] = int(self.len_e.text())
-        globals.algo_data["c_f"] = float(self.lec_f.text())
+        try:
+            globals.motor_data["description"] = str(self.le1.text())
+            globals.motor_data["sync_speed"] = float(self.le2.text())
+            globals.motor_data["rated_speed"] = float(self.le3.text())
+            globals.motor_data["rated_pf"] = float(self.le4.text())
+            globals.motor_data["rated_eff"] = float(self.le5.text())
+            globals.motor_data["T_b"] = float(self.le6.text())
+            globals.motor_data["T_lr" ] = float(self.le7.text())
+            globals.motor_data["I_lr"] = float(self.le8.text())
+            globals.algo_data["max_iter"] = int(self.le9.text())
+            globals.algo_data["conv_err"] = float(self.le10.text())
+            globals.algo_data["k_r"] = float(self.le11.text())
+            globals.algo_data["k_x"] = float(self.le12.text())
+            globals.algo_data["n_gen"] = int(self.len_gen.text())
+            globals.algo_data["pop"] = int(self.lepop.text())
+            globals.algo_data["n_r"] = int(self.len_r.text())
+            globals.algo_data["n_e"] = int(self.len_e.text())
+            globals.algo_data["c_f"] = float(self.lec_f.text())
+        except Exception as err:
+            print(err)
     
     # Update data in the main window
     def update_window(self):
@@ -696,7 +700,7 @@ class Window(QMainWindow):
     def update_model(self):
         if self.combo_model.currentIndex() == 0:
             # Single cage
-            self.img1.setPixmap(QtGui.QPixmap('images\single_cage.png'))
+            self.img1.setPixmap(QPixmap('images\single_cage.png'))
             self.combo_algo.setCurrentIndex(0)
             self.combo_algo.clear()
             self.combo_algo.addItem("Newton-Raphson")
@@ -706,7 +710,7 @@ class Window(QMainWindow):
             self.leRr2.hide()
         else:
             # Double cage
-            self.img1.setPixmap(QtGui.QPixmap('images\dbl_cage.png'))
+            self.img1.setPixmap(QPixmap('images\dbl_cage.png'))
             self.combo_algo.addItem("Levenberg-Marquardt")
             self.combo_algo.addItem("Damped Newton-Raphson")
             self.combo_algo.addItem("Genetic Algorithm")
@@ -741,7 +745,7 @@ class Window(QMainWindow):
     
     # About dialog box
     def about_dialog(self):
-        QtGui.QMessageBox.about(self, "About Moto",
+        QMessageBox.about(self, "About Moto",
                 """<b>Moto</b> is a parameter estimation tool that can be used to determine the equivalent circuit parameters of induction machines. The tool is intended for use in dynamic time-domain simulations such as stability and motor starting studies.
                    <p>
                    Version: <b>v0.2<b><P>
