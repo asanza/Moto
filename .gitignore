@@ -1,1 +1,38 @@
+# Ignore build artifacts
+build/
+Release/
+*.exe
+*.dll
+*.lib
+*.exp
+*.obj
+*.pyc
 __pycache__
+*.tlog
+*.recipe
+*.lastbuildstate
+*.filters
+*.sln
+*.vcxproj
+*.cache
+*.log
+*.yaml
+*.stamp*
+*.rule
+*.def
+*.pdb
+*.idb
+*.ipch
+*.tmp
+*.user
+*.DS_Store
+# Ignore Python artifacts
+python/__pycache__/
+*.pyc
+motor_simulation_results.png
+# Ignore CMake files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+# Ignore other OS-specific files
+Thumbs.db

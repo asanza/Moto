@@ -11,11 +11,7 @@ Last edited: August 2014
 """
 
 import os, sys
-from PyQt5.QtGui import QPalette, QFont, QIcon, QPixmap
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QMainWindow, QApplication, QDesktopWidget, QAction
-from PyQt5.QtWidgets import QLabel, QLineEdit, QComboBox, QPushButton
-from PyQt5.QtWidgets import QGridLayout, QWidget, QMessageBox, QFileDialog
+from PySide6 import QtCore, QtGui, QtWidgets
 import numpy as np
 import dateutil, pyparsing
 import matplotlib.pyplot as plt
@@ -26,7 +22,7 @@ from descent import nr_solver, lm_solver, dnr_solver, nr_solver_sc
 from genetic import ga_solver
 from hybrid import hy_solver
 
-class Window(QMainWindow):
+class Window(QtWidgets.QMainWindow):
     
     def __init__(self):
         super(Window, self).__init__()
@@ -39,21 +35,20 @@ class Window(QMainWindow):
         self.resize(800, 600)
         self.centre()
         
-        # Set background colour of main window to white
-        palette = QPalette()
-        palette.setColor(QPalette.Background,Qt.white)
-        self.setPalette(palette)
+        # palette = QtGui.QPalette()
+        # palette.setColor(QtGui.QPalette.Window, QtCore.Qt.white)
+        # self.setPalette(palette)
         
         self.setWindowTitle('SPE Moto | Induction Motor Parameter Estimation Tool')
-        self.setWindowIcon(QIcon('icons\motor.png'))    
+        self.setWindowIcon(QtGui.QIcon('icons/motor.png'))    
               
         """
         Actions
         """
-        exitAction = QAction(QIcon('icons\exit.png'), '&Exit', self)        
+        exitAction = QtGui.QAction(QtGui.QIcon('icons/exit.png'), '&Exit', self)        
         exitAction.setShortcut('Ctrl+Q')
         exitAction.setStatusTip('Exit application')
-        exitAction.triggered.connect(QApplication.instance().quit)
+        exitAction.triggered.connect(QtWidgets.QApplication.quit)
         
         loadAction = QAction('&Open File...', self)
         loadAction.setStatusTip('Open file and load motor data')
@@ -97,86 +92,86 @@ class Window(QMainWindow):
         # Motor details
         ################
         
-        header1 = QLabel('Motor')
+        header1 = QtWidgets.QLabel('Motor')
         #header1.setMinimumWidth(50)
         header1.setMinimumHeight(30)
         header1.setFont(heading_font)
         
-        label1 = QLabel('Description')
+        label1 = QtWidgets.QLabel('Description')
         #label1.setMinimumWidth(50)
         
-        self.le1 = QLineEdit()
+        self.le1 = QtWidgets.QLineEdit()
         #self.le1.setMinimumWidth(150)
         self.le1.setText(str(globals.motor_data["description"]))
                
-        label2 = QLabel('Synchronous speed')
+        label2 = QtWidgets.QLabel('Synchronous speed')
         #label2.setMinimumWidth(50)
         
-        self.le2 = QLineEdit()
+        self.le2 = QtWidgets.QLineEdit()
         #self.le2.setMinimumWidth(50)
         self.le2.setText(str(globals.motor_data["sync_speed"]))
         
-        label2a = QLabel('rpm')
+        label2a = QtWidgets.QLabel('rpm')
         #label2a.setMinimumWidth(30)
  
-        label3 = QLabel('Rated speed')
+        label3 = QtWidgets.QLabel('Rated speed')
         #label3.setMinimumWidth(50)
         
-        self.le3 = QLineEdit()
+        self.le3 = QtWidgets.QLineEdit()
         #self.le3.setMinimumWidth(50)
         self.le3.setText(str(globals.motor_data["rated_speed"]))
         
-        label3a = QLabel('rpm')
+        label3a = QtWidgets.QLabel('rpm')
         #label3a.setMinimumWidth(30)
            
-        label4 = QLabel('Rated power factor')
+        label4 = QtWidgets.QLabel('Rated power factor')
         #label4.setMinimumWidth(50)
         
-        self.le4 = QLineEdit()
+        self.le4 = QtWidgets.QLineEdit()
         #self.le4.setMinimumWidth(50)
         self.le4.setText(str(globals.motor_data["rated_pf"]))
         
-        label4a = QLabel('pf')
+        label4a = QtWidgets.QLabel('pf')
         #label4a.setMinimumWidth(20)
         
-        label5 = QLabel('Rated efficiency')
+        label5 = QtWidgets.QLabel('Rated efficiency')
         #label5.setMinimumWidth(50)
         
-        self.le5 = QLineEdit()
+        self.le5 = QtWidgets.QLineEdit()
         #self.le5.setMinimumWidth(50)
         self.le5.setText(str(globals.motor_data["rated_eff"]))
         
-        label5a = QLabel('pu')
+        label5a = QtWidgets.QLabel('pu')
         #label5a.setMinimumWidth(20)
 
-        label6 = QLabel('Breakdown torque')
+        label6 = QtWidgets.QLabel('Breakdown torque')
         #label6.setMinimumWidth(50)
         
-        self.le6 = QLineEdit()
+        self.le6 = QtWidgets.QLineEdit()
         #self.le6.setMinimumWidth(50)
         self.le6.setText(str(globals.motor_data["T_b"]))
         
-        label6a = QLabel('T/Tn')
+        label6a = QtWidgets.QLabel('T/Tn')
         #label6a.setMinimumWidth(40)
         
-        label7 = QLabel('Locked rotor torque')
+        label7 = QtWidgets.QLabel('Locked rotor torque')
         #label7.setMinimumWidth(50)
         
-        self.le7 = QLineEdit()
+        self.le7 = QtWidgets.QLineEdit()
         #self.le7.setMinimumWidth(50)
         self.le7.setText(str(globals.motor_data["T_lr"]))
         
-        label7a = QLabel('T/Tn')
+        label7a = QtWidgets.QLabel('T/Tn')
         #label7a.setMinimumWidth(40)
         
-        label8 = QLabel('Locked rotor current')
+        label8 = QtWidgets.QLabel('Locked rotor current')
         #label8.setMinimumWidth(50)
         
-        self.le8 = QLineEdit()
+        self.le8 = QtWidgets.QLineEdit()
         #self.le8.setMinimumWidth(50)
         self.le8.setText(str(globals.motor_data["I_lr"]))
         
-        label8a = QLabel('pu')
+        label8a = QtWidgets.QLabel('pu')
         #label8a.setMinimumWidth(40)
 
         label_rp = QLabel('Rated Power')
@@ -198,98 +193,98 @@ class Window(QMainWindow):
         # Model
         ########
         
-        header2 = QLabel('Model')
+        header2 = QtWidgets.QLabel('Model')
         header2.setMinimumHeight(40)
         header2.setFont(heading_font)
         
-        label_model = QLabel('Model')
+        label_model = QtWidgets.QLabel('Model')
         #label_model.setMinimumWidth(150)
         
-        self.combo_model = QComboBox()
+        self.combo_model = QtWidgets.QComboBox()
         self.combo_model.addItem("Single cage")
         # self.combo_model.addItem("Single cage w/o core losses")
         self.combo_model.addItem("Double cage")
         self.combo_model.setCurrentIndex(1)
         
-        self.img1 = QLabel()
-        self.img1.setPixmap(QPixmap('images\dbl_cage.png'))
+        self.img1 = QtWidgets.QLabel()
+        self.img1.setPixmap(QtGui.QPixmap('images/dbl_cage.png'))
         
         #####################
         # Algorithm settings
         #####################
         
-        header3 = QLabel('Settings')
+        header3 = QtWidgets.QLabel('Settings')
         header3.setMinimumHeight(40)
         header3.setFont(heading_font)
         
-        label9 = QLabel('Maximum # iterations')
+        label9 = QtWidgets.QLabel('Maximum # iterations')
         
-        self.le9 = QLineEdit()
+        self.le9 = QtWidgets.QLineEdit()
         self.le9.setText(str(globals.algo_data["max_iter"]))
         self.le9.setStatusTip('Maximum number of iterations allowed')
         
-        label10 = QLabel('Convergence criterion')
+        label10 = QtWidgets.QLabel('Convergence criterion')
         
-        self.le10 = QLineEdit()
+        self.le10 = QtWidgets.QLineEdit()
         self.le10.setText(str(globals.algo_data["conv_err"]))
         self.le10.setStatusTip('Squared error required to qualify for convergence')
 
-        self.label11 = QLabel('Linear constraint k_r')
+        self.label11 = QtWidgets.QLabel('Linear constraint k_r')
         
-        self.le11 = QLineEdit()
+        self.le11 = QtWidgets.QLineEdit()
         self.le11.setText(str(globals.algo_data["k_r"]))
         self.le11.setStatusTip('Linear constraint for Rs')
 
-        self.label12 = QLabel('Linear constraint k_x')
+        self.label12 = QtWidgets.QLabel('Linear constraint k_x')
         
-        self.le12 = QLineEdit()
+        self.le12 = QtWidgets.QLineEdit()
         self.le12.setText(str(globals.algo_data["k_x"]))
         self.le12.setStatusTip('Linear constraint for Xr2')
         
         # Genetic Algorithm Widgets
         ############################
         
-        self.labeln_gen = QLabel('Maximum # generations')
+        self.labeln_gen = QtWidgets.QLabel('Maximum # generations')
         self.labeln_gen.setVisible(0)
-        self.labelpop = QLabel('Members in population')
+        self.labelpop = QtWidgets.QLabel('Members in population')
         self.labelpop.setVisible(0)
-        self.labeln_r = QLabel('Members in mating pool')
+        self.labeln_r = QtWidgets.QLabel('Members in mating pool')
         self.labeln_r.setVisible(0)
-        self.labeln_e = QLabel('Elite children')
+        self.labeln_e = QtWidgets.QLabel('Elite children')
         self.labeln_e.setVisible(0)
-        self.labelc_f = QLabel('Crossover fraction')
+        self.labelc_f = QtWidgets.QLabel('Crossover fraction')
         self.labelc_f.setVisible(0)
         
-        self.len_gen = QLineEdit()
+        self.len_gen = QtWidgets.QLineEdit()
         self.len_gen.setText(str(globals.algo_data["n_gen"]))
         self.len_gen.setStatusTip('Maximum number of generations allowed')
         self.len_gen.hide()
         
-        self.lepop = QLineEdit()
+        self.lepop = QtWidgets.QLineEdit()
         self.lepop.setText(str(globals.algo_data["pop"]))
         self.lepop.setStatusTip('Number of members in each generation')
         self.lepop.hide()
         
-        self.len_r = QLineEdit()
+        self.len_r = QtWidgets.QLineEdit()
         self.len_r.setText(str(globals.algo_data["n_r"]))
         self.len_r.setStatusTip('Number of members in a mating pool')
         self.len_r.hide()
         
-        self.len_e = QLineEdit()
+        self.len_e = QtWidgets.QLineEdit()
         self.len_e.setText(str(globals.algo_data["n_e"]))
         self.len_e.setStatusTip('Number of elite children')
         self.len_e.hide()
         
-        self.lec_f = QLineEdit()
+        self.lec_f = QtWidgets.QLineEdit()
         self.lec_f.setText(str(globals.algo_data["c_f"]))
         self.lec_f.setStatusTip('Proportion of children spawned through crossover')
         self.lec_f.hide()
         
         
-        label_algo = QLabel('Algorithm')
+        label_algo = QtWidgets.QLabel('Algorithm')
         #label_algo.setMinimumWidth(150)
         
-        self.combo_algo = QComboBox()
+        self.combo_algo = QtWidgets.QComboBox()
         self.combo_algo.addItem("Newton-Raphson")
         self.combo_algo.addItem("Levenberg-Marquardt")
         self.combo_algo.addItem("Damped Newton-Raphson")
@@ -298,10 +293,10 @@ class Window(QMainWindow):
         self.combo_algo.addItem("Hybrid GA-LM")
         self.combo_algo.addItem("Hybrid GA-DNR")
         
-        calc_button = QPushButton("Calculate")
+        calc_button = QtWidgets.QPushButton("Calculate")
         calc_button.setStatusTip('Estimate equivalent circuit parameters')
         
-        self.plot_button = QPushButton("Plot")
+        self.plot_button = QtWidgets.QPushButton("Plot")
         self.plot_button.setDisabled(1)
         self.plot_button.setStatusTip('Plot torque-speed and current-speed curves')
         
@@ -309,82 +304,82 @@ class Window(QMainWindow):
         # Algorithm results
         ####################
         
-        header4 = QLabel('Results')
+        header4 = QtWidgets.QLabel('Results')
         #header4.setMinimumWidth(150)
         header4.setMinimumHeight(40)
         header4.setFont(heading_font)
         
-        label13 = QLabel('R_s')
+        label13 = QtWidgets.QLabel('R_s')
         #label13.setFixedWidth(50)
         
-        self.leRs = QLineEdit()
+        self.leRs = QtWidgets.QLineEdit()
         self.leRs.setStatusTip('Stator resistance (pu)')
         
-        label14 = QLabel('X_s')
+        label14 = QtWidgets.QLabel('X_s')
         #label14.setMinimumWidth(150)
         
-        self.leXs = QLineEdit()
+        self.leXs = QtWidgets.QLineEdit()
         self.leXs.setStatusTip('Stator reactance (pu)')
         
-        label15 = QLabel('X_m')
+        label15 = QtWidgets.QLabel('X_m')
         #label15.setMinimumWidth(150)
         
-        self.leXm = QLineEdit()
+        self.leXm = QtWidgets.QLineEdit()
         self.leXm.setStatusTip('Magnetising resistance (pu)')
         
-        label16 = QLabel('X_r1')
+        label16 = QtWidgets.QLabel('X_r1')
         #label16.setMinimumWidth(150)
         
-        self.leXr1 = QLineEdit()
+        self.leXr1 = QtWidgets.QLineEdit()
         self.leXr1.setStatusTip('Inner cage rotor reactance (pu)')
         
-        label17 = QLabel('R_r1')
+        label17 = QtWidgets.QLabel('R_r1')
         #label17.setMinimumWidth(150)
         
-        self.leRr1 = QLineEdit()
+        self.leRr1 = QtWidgets.QLineEdit()
         self.leRr1.setStatusTip('Inner cage rotor resistance (pu)')
         
-        self.label18 = QLabel('X_r2')
+        self.label18 = QtWidgets.QLabel('X_r2')
         #label18.setMinimumWidth(150)
         
-        self.leXr2 = QLineEdit()
+        self.leXr2 = QtWidgets.QLineEdit()
         self.leXr2.setStatusTip('Outer cage rotor reactance (pu)')
         
-        self.label19 = QLabel('R_r2')
+        self.label19 = QtWidgets.QLabel('R_r2')
         #label19.setMinimumWidth(150)
         
-        self.leRr2 = QLineEdit()
+        self.leRr2 = QtWidgets.QLineEdit()
         self.leRr2.setStatusTip('Outer cage rotor resistance (pu)')
         
-        label20 = QLabel('R_c')
+        label20 = QtWidgets.QLabel('R_c')
         #label20.setMinimumWidth(150)
         
-        self.leRc = QLineEdit()
+        self.leRc = QtWidgets.QLineEdit()
         self.leRc.setStatusTip('Core loss resistance (pu)')
         
-        label21 = QLabel('Converged?')
+        label21 = QtWidgets.QLabel('Converged?')
         #label21.setMinimumWidth(150)
         
-        self.leConv = QLineEdit()
+        self.leConv = QtWidgets.QLineEdit()
         self.leConv.setStatusTip('Did algorithm converge?')
         
-        label22 = QLabel('Squared Error')
+        label22 = QtWidgets.QLabel('Squared Error')
         #label22.setMinimumWidth(150)
         
-        self.leErr = QLineEdit()
+        self.leErr = QtWidgets.QLineEdit()
         self.leErr.setStatusTip('Squared error of estimate')
         
-        label23 = QLabel('Iterations')
+        label23 = QtWidgets.QLabel('Iterations')
         #label23.setMinimumWidth(150)
         
-        self.leIter = QLineEdit()
+        self.leIter = QtWidgets.QLineEdit()
         self.leIter.setStatusTip('Number of iterations / generations')
         
         ##############
         # Grid layout
         ##############
         
-        grid = QGridLayout()
+        grid = QtWidgets.QGridLayout()
         
         # Motor details
         i = 0
@@ -489,7 +484,7 @@ class Window(QMainWindow):
         
         grid.setAlignment(Qt.AlignTop)      
 
-        main_screen = QWidget()
+        main_screen = QtWidgets.QWidget()
         main_screen.setLayout(grid)
         main_screen.setStatusTip('Ready')
         
@@ -727,7 +722,7 @@ class Window(QMainWindow):
     def update_model(self):
         if self.combo_model.currentIndex() == 0:
             # Single cage
-            self.img1.setPixmap(QPixmap('images\single_cage.png'))
+            self.img1.setPixmap(QtGui.QPixmap('images/single_cage.png'))
             self.combo_algo.setCurrentIndex(0)
             self.combo_algo.clear()
             self.combo_algo.addItem("Newton-Raphson")
@@ -737,7 +732,7 @@ class Window(QMainWindow):
             self.leRr2.hide()
         else:
             # Double cage
-            self.img1.setPixmap(QPixmap('images\dbl_cage.png'))
+            self.img1.setPixmap(QtGui.QPixmap('images/dbl_cage.png'))
             self.combo_algo.addItem("Levenberg-Marquardt")
             self.combo_algo.addItem("Damped Newton-Raphson")
             self.combo_algo.addItem("Genetic Algorithm")
@@ -787,16 +782,17 @@ class Window(QMainWindow):
     # Centre application window on screen
     def centre(self):
         qr = self.frameGeometry()
-        cp = QDesktopWidget().availableGeometry().center()
+        screen = QtWidgets.QApplication.primaryScreen()
+        cp = screen.availableGeometry().center()
         qr.moveCenter(cp)
         self.move(qr.topLeft())
 
 def main():
     
-    app = QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     w = Window()
     w.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
 
 
 if __name__ == '__main__':
