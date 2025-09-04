@@ -12,6 +12,8 @@ Last edited: August 2014
 
 import os, sys
 from PySide6 import QtCore, QtGui, QtWidgets
+from PySide6.QtGui import QAction, QFont, Qt
+from PySide6.QtWidgets import QLabel, QLineEdit
 import numpy as np
 import dateutil, pyparsing
 import matplotlib.pyplot as plt
