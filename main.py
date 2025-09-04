@@ -16,6 +16,8 @@ from PySide6.QtGui import QAction, QFont, Qt
 from PySide6.QtWidgets import QLabel, QLineEdit
 import numpy as np
 import dateutil, pyparsing
+import matplotlib
+matplotlib.use('QtAgg')
 import matplotlib.pyplot as plt
 import globals
 import saveload
