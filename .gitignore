@@ -36,3 +36,4 @@ CMakeCache.txt
 cmake_install.cmake
 # Ignore other OS-specific files
 Thumbs.db
+*.orig
